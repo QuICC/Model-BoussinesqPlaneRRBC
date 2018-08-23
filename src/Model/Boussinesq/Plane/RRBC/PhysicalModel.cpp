@@ -15,28 +15,28 @@
 
 // Class include
 //
-#include "Model/Boussinesq/Plane/RRBC/PhysicalModel.hpp"
+#include "QuICC/Model/Boussinesq/Plane/RRBC/PhysicalModel.hpp"
 
 // Project includes
 //
-#include "Model/Boussinesq/Plane/RRBC/Transport.hpp"
-#include "Model/Boussinesq/Plane/RRBC/Momentum.hpp"
-#include "Enums/FieldIds.hpp"
-#include "IoVariable/StateFileReader.hpp"
-#include "IoVariable/StateFileWriter.hpp"
-#include "IoVariable/Cartesian1DScalarEnergyWriter.hpp"
-#include "IoVariable/Cartesian1DTorPolEnergyWriter.hpp"
-#include "IoVariable/Cartesian1DNusseltDZWriter.hpp"
-#include "IoVariable/VisualizationFileWriter.hpp"
-#include "IoTools/IdToHuman.hpp"
-#include "Generator/States/RandomScalarState.hpp"
-#include "Generator/States/RandomVectorState.hpp"
-#include "Generator/States/CartesianExactScalarState.hpp"
-#include "Generator/States/CartesianExactVectorState.hpp"
-#include "Generator/Visualizers/ScalarFieldVisualizer.hpp"
-#include "Generator/Visualizers/ScalarFieldTrivialVisualizer.hpp"
-#include "Generator/Visualizers/VectorFieldVisualizer.hpp"
-#include "Model/PhysicalModelBase.hpp"
+#include "QuICC/Model/Boussinesq/Plane/RRBC/Transport.hpp"
+#include "QuICC/Model/Boussinesq/Plane/RRBC/Momentum.hpp"
+#include "QuICC/Enums/FieldIds.hpp"
+#include "QuICC/IoVariable/StateFileReader.hpp"
+#include "QuICC/IoVariable/StateFileWriter.hpp"
+#include "QuICC/IoVariable/Cartesian1DScalarEnergyWriter.hpp"
+#include "QuICC/IoVariable/Cartesian1DTorPolEnergyWriter.hpp"
+#include "QuICC/IoVariable/Cartesian1DNusseltDZWriter.hpp"
+#include "QuICC/IoVariable/VisualizationFileWriter.hpp"
+#include "QuICC/IoTools/IdToHuman.hpp"
+#include "QuICC/Generator/States/RandomScalarState.hpp"
+#include "QuICC/Generator/States/RandomVectorState.hpp"
+#include "QuICC/Generator/States/CartesianExactScalarState.hpp"
+#include "QuICC/Generator/States/CartesianExactVectorState.hpp"
+#include "QuICC/Generator/Visualizers/ScalarFieldVisualizer.hpp"
+#include "QuICC/Generator/Visualizers/ScalarFieldTrivialVisualizer.hpp"
+#include "QuICC/Generator/Visualizers/VectorFieldVisualizer.hpp"
+#include "QuICC/Model/PhysicalModelBase.hpp"
 
 namespace QuICC {
 
