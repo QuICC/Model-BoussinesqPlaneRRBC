@@ -4,6 +4,10 @@
  * @author Philippe Marti \<philippe.marti@colorado.edu\>
  */
 
+/// Define small macros allowing to convert to string
+#define MAKE_STR_X( _P ) # _P
+#define MAKE_STR( _P ) MAKE_STR_X( _P )
+
 // Configuration includes
 //
 
@@ -15,12 +19,12 @@
 
 // Class include
 //
-#include "QuICC/Model/Boussinesq/Plane/RRBC/Momentum.hpp"
+#include MAKE_STR( QUICC_MODEL_PATH/Boussinesq/Plane/RRBC/Momentum.hpp )
 
 // Project includes
 //
-#include "QuICC/Base/Typedefs.hpp"
-#include "QuICC/Base/MathConstants.hpp"
+#include "QuICC/Typedefs.hpp"
+#include "QuICC/Math/Constants.hpp"
 #include "QuICC/Enums/NonDimensional.hpp"
 #include "QuICC/PhysicalOperators/Cross.hpp"
 
@@ -84,13 +88,13 @@ namespace RRBC {
    void Momentum::setRequirements()
    {
       // Set temperatur as equation unknown
-      this->setName(PhysicalNames::VELOCITY);
+      this->setName(PhysicalNames::Velocity::id());
 
       // Set solver timing
       this->setSolveTiming(SolveTiming::PROGNOSTIC);
 
       // Add velocity to requirements: is scalar?, need spectral?, need physical?, need grad?(, need curl?)
-      this->mRequirements.addField(PhysicalNames::VELOCITY, FieldRequirement(false, true, true, false, true));
+      this->mRequirements.addField(PhysicalNames::Velocity::id(), FieldRequirement(false, true, true, false, true));
    }
 
 }

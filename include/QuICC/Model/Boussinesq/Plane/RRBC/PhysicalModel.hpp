@@ -7,11 +7,6 @@
 #ifndef QUICC_MODEL_BOUSSINESQ_PLANE_RRBC_MODEL_HPP
 #define QUICC_MODEL_BOUSSINESQ_PLANE_RRBC_MODEL_HPP
 
-// Model version number
-#define QUICC_MODEL_VERSION_MAJOR 0
-#define QUICC_MODEL_VERSION_MINOR 105
-#define QUICC_MODEL_VERSION_PATCH 0
-
 // Configuration includes
 //
 
@@ -27,7 +22,7 @@
 #include "QuICC/Simulation/Simulation.hpp"
 #include "QuICC/Generator/StateGenerator.hpp"
 #include "QuICC/Generator/VisualizationGenerator.hpp"
-#include "QuICC/SpatialSchemes/3D/TFFScheme.hpp"
+#include "QuICC/SpatialScheme/3D/TFFScheme.hpp"
 
 // THIS IS NOT A COMMENT BUT AND OPTION READ BY CMAKE
 // QUICC_SPATIALSCHEME_FORMULATION = TORPOL;
@@ -58,7 +53,7 @@ namespace RRBC {
          static const std::string PYCLASS;
 
          /// Typedef for the spatial scheme used
-         typedef Schemes::TFFScheme SchemeType;
+         typedef SpatialScheme::TFFScheme SchemeType;
 
          /**
           * @brief Add the required equations

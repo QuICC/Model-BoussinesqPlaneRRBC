@@ -4,6 +4,10 @@
  * @author Philippe Marti \<philippe.marti@colorado.edu\>
  */
 
+/// Define small macros allowing to convert to string
+#define MAKE_STR_X( _P ) # _P
+#define MAKE_STR( _P ) MAKE_STR_X( _P )
+
 // Configuration includes
 //
 
@@ -15,12 +19,12 @@
 
 // Class include
 //
-#include "QuICC/Model/Boussinesq/Plane/RRBC/Transport.hpp"
+#include MAKE_STR( QUICC_MODEL_PATH/Boussinesq/Plane/RRBC/Transport.hpp )
 
 // Project includes
 //
-#include "QuICC/Base/Typedefs.hpp"
-#include "QuICC/Base/MathConstants.hpp"
+#include "QuICC/Typedefs.hpp"
+#include "QuICC/Math/Constants.hpp"
 #include "QuICC/Enums/NonDimensional.hpp"
 #include "QuICC/PhysicalOperators/VelocityHeatAdvection.hpp"
 
@@ -59,22 +63,22 @@ namespace RRBC {
       /// Computation of the advection:
       ///   \f$ \left(\vec u\cdot\nabla\right)\theta\f$
       ///
-      Physical::VelocityHeatAdvection<FieldComponents::Physical::X,FieldComponents::Physical::Y,FieldComponents::Physical::Z>::set(rNLComp, this->vector(PhysicalNames::VELOCITY).dom(0).phys(), this->unknown().dom(0).grad(), 1.0);
+      Physical::VelocityHeatAdvection<FieldComponents::Physical::X,FieldComponents::Physical::Y,FieldComponents::Physical::Z>::set(rNLComp, this->vector(PhysicalNames::Velocity::id()).dom(0).phys(), this->unknown().dom(0).grad(), 1.0);
    }
 
    void Transport::setRequirements()
    {
       // Set temperatur as equation unknown
-      this->setName(PhysicalNames::TEMPERATURE);
+      this->setName(PhysicalNames::Temperature::id());
 
       // Set solver timing
       this->setSolveTiming(SolveTiming::PROGNOSTIC);
 
       // Add temperature to requirements: is scalar?, need spectral?, need physical?, need diff?
-      this->mRequirements.addField(PhysicalNames::TEMPERATURE, FieldRequirement(true, true, false, true));
+      this->mRequirements.addField(PhysicalNames::Temperature::id(), FieldRequirement(true, true, false, true));
 
       // Add X velocity to requirements: is scalar?, need spectral?, need physical?, need diff?
-      this->mRequirements.addField(PhysicalNames::VELOCITY, FieldRequirement(false, true, true, false));
+      this->mRequirements.addField(PhysicalNames::Velocity::id(), FieldRequirement(false, true, true, false));
    }
 
 }
