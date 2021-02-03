@@ -153,7 +153,7 @@ class BoussinesqTiltedRRBCPlaneVC(base_model.BaseModel):
                         bc = {0:20}
                     elif field_row == ("temperature","") and field_col == ("temperature",""):
                         bc = {0:21}
-            
+
             # Set LHS galerkin restriction
             if self.use_galerkin:
                 if field_row == ("velocity","x"):

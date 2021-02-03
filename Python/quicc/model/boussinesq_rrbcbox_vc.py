@@ -176,7 +176,7 @@ class BoussinesqRRBCBoxVC(base_model.BaseModel):
                         bc = {'x':{0:21}, 'y':{0:20}, 'z':{0:21}, 'priority':'ysz'}
                     elif field_row == ("velocity","z") and field_col == field_row:
                         bc = {'x':{0:21}, 'y':{0:21}, 'z':{0:20}, 'priority':'zsx'}
-            
+
             # Set LHS galerkin restriction
             if self.use_galerkin:
                 if field_row == ("velocity","x"):
@@ -356,7 +356,7 @@ class BoussinesqRRBCBoxVC(base_model.BaseModel):
                 mat = geo.zblk(res[0], res[1], res[2], 2, 2, 2, bc)
 
             elif field_col == ("velocity","z"):
-                if self.linearize or bcs["bcType"] == self.FIELD_TO_RHS: 
+                if self.linearize or bcs["bcType"] == self.FIELD_TO_RHS:
                     if eq_params['heating'] == 0:
                         mat = geo.i2j2k2(res[0], res[1], res[2], bc, restriction = restriction)
                         mat = mat*utils.qid_from_idx(idx_w, np.prod(res))
@@ -452,7 +452,7 @@ class BoussinesqRRBCBoxVC(base_model.BaseModel):
 
     def zero_blocks(self, res, eigs):
         """Build restriction matrices"""
-    
+
         # U:
         idx_u = utils.idx_kron_3d(res[1], res[2], res[0], utils.qidx(res[1], res[1]-1), utils.qidx(res[2], 0), utils.qidx(res[0], 0))
         idx_u = np.union1d(idx_u, utils.idx_kron_3d(res[1], res[2], res[0], utils.qidx(res[1], 0), utils.qidx(res[2], res[2]-1), utils.qidx(res[0], 0)))

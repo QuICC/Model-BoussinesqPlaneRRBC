@@ -174,7 +174,7 @@ class BoussinesqRRBCPlaneVC(base_model.BaseModel):
                             bc = {0:20, 'c':[pump*1j*k1, -pump*1j*k1]}
                         elif field_col == ("velocity","z"):
                             bc = {0:20}
-            
+
             # Set LHS galerkin restriction
             if self.use_galerkin:
                 if field_row == ("velocity","x"):

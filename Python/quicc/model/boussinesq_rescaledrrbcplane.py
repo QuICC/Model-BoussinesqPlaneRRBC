@@ -89,7 +89,7 @@ class BoussinesqRescaledRRBCPlane(base_model.BaseModel):
 
     def stencil(self, res, eq_params, eigs, bcs, field_row, make_square):
         """Create the galerkin stencil"""
-        
+
         # Get boundary condition
         bc = self.convert_bc(eq_params,eigs,bcs,field_row,field_row)
         return geo.stencil(res[0], bc, make_square)
@@ -163,7 +163,7 @@ class BoussinesqRescaledRRBCPlane(base_model.BaseModel):
                         bc = {0:21}
                     #elif field_row == ("pressure","") and field_col == field_row:
                     #    bc = {0:21}
-            
+
             # Set LHS galerkin restriction
             if self.use_galerkin:
                 if field_row == ("streamfunction",""):

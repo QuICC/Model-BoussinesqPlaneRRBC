@@ -103,7 +103,7 @@ class BoussinesqRRBCPlane(base_model.BaseModel):
 
     def stencil(self, res, eq_params, eigs, bcs, field_row, make_square):
         """Create the galerkin stencil"""
-        
+
         # Get boundary condition
         bc = self.convert_bc(eq_params,eigs,bcs,field_row,field_row)
         return geo.stencil(res[0], bc, make_square)
@@ -205,7 +205,7 @@ class BoussinesqRRBCPlane(base_model.BaseModel):
                             E = eq_params['ekman']
                             c = E**(1./6.)/2**(1./2.)
                             bc = {0:20, 'c':[c, -c], 'use_parity':True}
-            
+
             # Set LHS galerkin restriction
             if self.use_galerkin:
                 if field_row == ("velocity","tor"):
@@ -275,7 +275,7 @@ class BoussinesqRRBCPlane(base_model.BaseModel):
         if field_row == ("temperature","") and field_col == ("velocity","pol") and kx == 0 and ky == 0:
             mat = geo.zblk(res[0], bc)
 
-        # temperature 
+        # temperature
         if field_row == ("temperature","") and field_col == ("velocity","pol"):
             mat = geo.i2(res[0], bc, -(kx**2 + ky**2))
 
@@ -344,7 +344,7 @@ class BoussinesqRRBCPlane(base_model.BaseModel):
 
             elif field_col == ("temperature",""):
                 mat = geo.zblk(res[0], bc)
-    
+
         # Temperature kx = 0, ky = 0
         elif field_row == ("temperature","") and kx == 0 and ky == 0:
             if field_col == ("velocity","tor"):
@@ -355,7 +355,7 @@ class BoussinesqRRBCPlane(base_model.BaseModel):
 
             elif field_col == ("temperature",""):
                 mat = geo.zblk(res[0], bc)
-    
+
         # Mean temperature
         elif field_row == ("mean_temperature",""):
             if field_col == ("velocity","tor"):
