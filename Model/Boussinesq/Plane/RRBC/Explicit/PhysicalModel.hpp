@@ -1,6 +1,7 @@
-/** 
+/**
  * @file PhysicalModel.hpp
- * @brief Implementation of the Boussinesq rotating Rayleigh-Benard in a plane layer (toroidal/poloidal formulation) with anisotropic rescaling model
+ * @brief Implementation of the Boussinesq rotating Rayleigh-Benard in a plane
+ * layer (toroidal/poloidal formulation) with anisotropic rescaling model
  */
 
 #ifndef QUICC_MODEL_BOUSSINESQ_PLANE_RRBC_EXPLICIT_PHYSICALMODEL_HPP
@@ -27,37 +28,37 @@ namespace RRBC {
 
 namespace Explicit {
 
+/**
+ * @brief Implementation of the Boussinesq rotating Rayleigh-Benard in a plane
+ * layer (toroidal/poloidal formulation) with anisotropic rescaling model
+ */
+class PhysicalModel : public IRRBCModel
+{
+public:
+   /// Typedef for the spatial scheme used
+   typedef SpatialScheme::TFF SchemeType;
+
    /**
-    * @brief Implementation of the Boussinesq rotating Rayleigh-Benard in a plane layer (toroidal/poloidal formulation) with anisotropic rescaling model
+    * @brief Constructor
     */
-   class PhysicalModel: public IRRBCModel
-   {
-      public:
-         /// Typedef for the spatial scheme used
-         typedef SpatialScheme::TFF SchemeType;
+   PhysicalModel() = default;
 
-         /**
-          * @brief Constructor
-          */
-         PhysicalModel() = default;
+   /**
+    * @brief Destructor
+    */
+   virtual ~PhysicalModel() = default;
 
-         /**
-          * @brief Destructor
-          */
-         virtual ~PhysicalModel() = default;
+   /// Python model script module name
+   virtual std::string PYMODULE() override;
 
-         /// Python model script module name
-         virtual std::string PYMODULE() override;
+   /**
+    * @brief Initialize specialized backend
+    */
+   void init() final;
 
-         /**
-          * @brief Initialize specialized backend
-          */
-         void init() final;
-
-      protected:
-
-      private:
-   };
+protected:
+private:
+};
 
 } // namespace Explicit
 } // namespace RRBC

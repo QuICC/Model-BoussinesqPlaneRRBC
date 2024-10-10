@@ -1,6 +1,7 @@
 /**
  * @file Transport.hpp
- * @brief Implementation of the transport equation for rotating Rayleigh-Benard convection in a plane layer (toroidal/poloidal formulation)
+ * @brief Implementation of the transport equation for rotating Rayleigh-Benard
+ * convection in a plane layer (toroidal/poloidal formulation)
  */
 
 #ifndef QUICC_EQUATIONS_BOUSSINESQ_PLANE_RRBC_TRANSPORT_HPP
@@ -11,8 +12,8 @@
 
 // Project includes
 //
-#include "Types/Typedefs.hpp"
 #include "QuICC/Equations/IScalarEquation.hpp"
+#include "Types/Typedefs.hpp"
 
 namespace QuICC {
 
@@ -24,47 +25,50 @@ namespace Plane {
 
 namespace RRBC {
 
+/**
+ * @brief Implementation of the transport equation for rotating Rayleigh-Benard
+ * convection in a plane layer (toroidal/poloidal formulation)
+ */
+class Transport : public IScalarEquation
+{
+public:
    /**
-    * @brief Implementation of the transport equation for rotating Rayleigh-Benard convection in a plane layer (toroidal/poloidal formulation)
+    * @brief Simple constructor
+    *
+    * @param spEqParams    Shared equation parameters
     */
-   class Transport: public IScalarEquation
-   {
-      public:
-         /**
-          * @brief Simple constructor
-          *
-          * @param spEqParams    Shared equation parameters
-          */
-         Transport(SharedEquationParameters spEqParams, SpatialScheme::SharedCISpatialScheme spScheme, std::shared_ptr<Model::IModelBackend> spBackend);
+   Transport(SharedEquationParameters spEqParams,
+      SpatialScheme::SharedCISpatialScheme spScheme,
+      std::shared_ptr<Model::IModelBackend> spBackend);
 
-         /**
-          * @brief Simple empty destructor
-          */
-         virtual ~Transport() = default;
+   /**
+    * @brief Simple empty destructor
+    */
+   virtual ~Transport() = default;
 
-         /**
-          * @brief Initialize nonlinear interaction kernel
-          */
-         virtual void initNLKernel(const bool force = false) override;
+   /**
+    * @brief Initialize nonlinear interaction kernel
+    */
+   virtual void initNLKernel(const bool force = false) override;
 
-      protected:
-         /**
-          * @brief Set variable requirements
-          */
-         virtual void setRequirements() override;
+protected:
+   /**
+    * @brief Set variable requirements
+    */
+   virtual void setRequirements() override;
 
-         /**
-          * @brief Set the equation coupling information
-          */
-         virtual void setCoupling() override;
+   /**
+    * @brief Set the equation coupling information
+    */
+   virtual void setCoupling() override;
 
-         /**
-          * @brief Set the nonlinear integration components
-          */
-         virtual void setNLComponents() override;
+   /**
+    * @brief Set the nonlinear integration components
+    */
+   virtual void setNLComponents() override;
 
-      private:
-   };
+private:
+};
 
 } // namespace RRBC
 } // namespace Plane
