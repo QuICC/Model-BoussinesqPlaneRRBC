@@ -88,12 +88,6 @@ void IRRBCModel::addStates(SharedStateGenerator spGen)
    }
    break;
 
-   case 2: {
-      // spScalar->setStateType(Equations::CartesianExactStateIds::PLANFORMSQUARES);
-      // spScalar->setModeOptions(1e0, 10.0, 1e0, 10.0);
-   }
-   break;
-
    case 3: {
       auto spKernel = std::make_shared<Spectral::Kernel::MakeRandom>(
          spGen->ss().has(SpatialScheme::Feature::ComplexSpectrum));
