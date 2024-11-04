@@ -25,7 +25,6 @@
 #include "QuICC/NonDimensional/Upper1d.hpp"
 #include "QuICC/PhysicalNames/Temperature.hpp"
 #include "QuICC/PhysicalNames/Velocity.hpp"
-// #include "QuICC/Io/Variable/Cartesian1DNusseltDZWriter.hpp"
 #include "QuICC/Generator/States/CartesianExactScalarState.hpp"
 #include "QuICC/Generator/States/CartesianExactVectorState.hpp"
 #include "QuICC/Generator/States/RandomScalarState.hpp"
@@ -206,10 +205,6 @@ void IRRBCModel::addAsciiOutputFiles(SharedSimulation spSim)
    // Create kinetic energy writer
    this->enableAsciiFile<Io::Variable::Cartesian1DTorPolEnergyWriter>(
       "kinetic_energy", "kinetic", PhysicalNames::Velocity::id(), spSim);
-
-   //      // Create nusselt number writer
-   //      this->enableAsciiFile<Io::Variable::Cartesian1DNusseltDZWriter>("temperature_nusselt",
-   //      "temperature_", PhysicalNames::Temperature::id(), spSim);
 }
 
 } // namespace RRBC
