@@ -3,18 +3,20 @@
 import numpy as np
 import functools
 
-import quicc.model.boussinesq_rrbcplane as mod
+import quicc_solver.model.boussinesq.plane.rrbc.implicit.physical_model as mod
 import quicc.linear_stability.marginal_curve as MarginalCurve
 
 # Create the model and activate linearization
-model = mod.BoussinesqRRBCPlane()
+#model = mod.BoussinesqRRBCPlane()
+model = mod.PhysicalModel()
 model.linearize = True
 model.use_galerkin = False
 
 # Set resolution, parameters, boundary conditions
-res = [512, 0, 0]
+#res = [512, 0, 0]
+res = [64, 0, 0]
 eq_params = {'prandtl':1, 'rayleigh':8.69672, 'ekman':1e-7, 'scale1d':2.0, 'fast_mean':0, 'rescaled':1}
-eq_params = {'prandtl':1, 'rayleigh':20, 'ekman':1e-8, 'scale1d':2.0, 'fast_mean':0, 'rescaled':1}
+#eq_params = {'prandtl':1, 'rayleigh':20, 'ekman':1e-8, 'scale1d':2.0, 'fast_mean':0, 'rescaled':1}
 auto_params = model.automatic_parameters(eq_params)
 for k,v in auto_params.items():
     eq_params[k] = v
