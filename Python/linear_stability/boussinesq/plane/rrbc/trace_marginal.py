@@ -13,19 +13,38 @@ model.linearize = True
 model.use_galerkin = False
 
 # Set resolution, parameters, boundary conditions
+#
+# Note that the Rayleigh number used in this model is the traditional one (as in Chadrasekhar), 
+# The Ekman number has a 2 in its definition (which is also consistent with the Taylor number defined in Chandrasekhar)
+#
+# scale1d = not really used in the current implementation. Can be used to define whether the vertical bououndaries are at zi=0, zo=1 or zi=-1, zo=1
+# fast_mean and resclaed can be used to bring the 3D model closer to the QG asymptotic model:
+#   fast_mean = rescaled = 0 imply no rescaling
+#   fast_mean = rescaled = 1 : large vertical scales and slow temperature temporal average are explicitly rescaled by E^(1/3) and E^(2/3) respectively
+#
+
 #res = [512, 0, 0]
-res = [64, 0, 0]
-eq_params = {'prandtl':1, 'rayleigh':8.69672, 'ekman':1e-7, 'scale1d':2.0, 'fast_mean':0, 'rescaled':1}
-#eq_params = {'prandtl':1, 'rayleigh':20, 'ekman':1e-8, 'scale1d':2.0, 'fast_mean':0, 'rescaled':1}
-auto_params = model.automatic_parameters(eq_params)
-for k,v in auto_params.items():
-    eq_params[k] = v
-bcs = {'bcType':model.SOLVER_HAS_BC, 'velocity':2, 'temperature':0}
-phi = 0
+res = [256, 0, 0]
+eq_params = {'prandtl':1, 'rayleigh':8.69672, 'ekman':1e-7, 'scale1d':2.0, 'fast_mean':0, 'rescaled':0}
+bcs = {'bcType':model.SOLVER_HAS_BC, 'velocity':3, 'temperature':3}
 kp = 1.30476
 kpm = 0.02
 kpp = 0.03
 dkp = 0.0035
+
+#eq_params = {'prandtl':1, 'rayleigh':8.69672, 'ekman':1e-3, 'scale1d':2.0, 'fast_mean':0, 'rescaled':0}
+#bcs = {'bcType':model.SOLVER_HAS_BC, 'velocity':3, 'temperature':3}
+#kp = 1.3
+#kpm = 0.04
+#kpp = 0.05
+#dkp = 0.0035
+
+auto_params = model.automatic_parameters(eq_params)
+for k,v in auto_params.items():
+    eq_params[k] = v
+phi = 0
+
+# in the rapidly rotating regime (low Ekman) it makes sense to rescale thusly:
 if eq_params['rescaled'] == 0:
     kp *= eq_params['ekman']**(-1./3.)
     kpm *= eq_params['ekman']**(-1./3.)

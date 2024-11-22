@@ -1,5 +1,7 @@
 """Module provides the functions to generate the Boussinesq rotating Rayleigh-Benard convection in a plane layer (2 periodic directions) (Toroidal/Poloidal formulation)"""
 
+###### The explicit model probably needs to be fixed #####
+
 from __future__ import division
 from __future__ import unicode_literals
 
