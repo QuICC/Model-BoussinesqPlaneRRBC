@@ -13,5 +13,4 @@ quicc_add_stability(Explicit
   TIMEOUT 500
   VARIANTS "framework/parallel/algorithm:tubular"
   MPIRANKS 1
-  GITTAG "new/rrbc_stability"
   )
