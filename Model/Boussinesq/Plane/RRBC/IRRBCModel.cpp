@@ -130,7 +130,7 @@ void IRRBCModel::addStates(SharedStateGenerator spGen)
          spGen->ss().has(SpatialScheme::Feature::ComplexSpectrum));
       std::vector<MHDFloat> ratios = {1e4, 1e4, 1e4};
       spKernel->setRatio(ratios);
-      spKernel->init(-1e-4, 1e-4);
+      spKernel->init(-1e-7, 1e-7);
       spVector->setSrcKernel(FieldComponents::Spectral::TOR, spKernel);
       spVector->setSrcKernel(FieldComponents::Spectral::POL, spKernel);
    }

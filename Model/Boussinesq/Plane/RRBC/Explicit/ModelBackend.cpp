@@ -215,16 +215,16 @@ std::vector<details::BlockDescription> ModelBackend::implicitBlockBuilder(
 
             if (o.k1 == 0 && o.k2 == 0)
             {
-               SparseSM::Chebyshev::LinearMap::Id spasm(nNr, nNc, o.zi, o.zo, 2,
+               SparseSM::Chebyshev::LinearMap::Id id(nNr, nNc, o.zi, o.zo, 2,
                   0);
-               bMat = spasm.mat();
+               bMat = id.mat();
             }
             else
             {
                auto laplh = -(o.k1 * o.k1 + o.k2 * o.k2);
-               SparseSM::Chebyshev::LinearMap::I2Lapl spasm(nNr, nNc, o.zi,
+               SparseSM::Chebyshev::LinearMap::I2Lapl i2lapl(nNr, nNc, o.zi,
                   o.zo, o.k1, o.k2);
-               bMat = laplh * spasm.mat();
+               bMat = laplh * i2lapl.mat();
             }
 
             return bMat;
@@ -255,12 +255,13 @@ std::vector<details::BlockDescription> ModelBackend::implicitBlockBuilder(
             if (o.k1 == 0 && o.k2 == 0)
             {
                auto c = 1. / E;
-               SparseSM::Chebyshev::LinearMap::I2 spasm(nNr, nNc, o.zi, o.zo);
-               bMat = c * spasm.mat();
+               SparseSM::Chebyshev::LinearMap::I2 i2(nNr, nNc, o.zi, o.zo);
+               bMat = c * i2.mat();
             }
             else
             {
-               auto c = -(o.k1 * o.k1 + o.k2 * o.k2) / E;
+               auto laplh = -(o.k1 * o.k1 + o.k2 * o.k2);
+               auto c = laplh / E;
                SparseSM::Chebyshev::LinearMap::I2D1 i2d1(nNr, nNc, o.zi, o.zo);
                bMat = c * i2d1.mat();
             }
@@ -295,30 +296,30 @@ std::vector<details::BlockDescription> ModelBackend::implicitBlockBuilder(
             {
                if (o.isSplitOperator)
                {
-                  SparseSM::Chebyshev::LinearMap::I2Lapl spasm(nNr, nNc, o.zi,
+                  SparseSM::Chebyshev::LinearMap::I2Lapl i2lapl(nNr, nNc, o.zi,
                      o.zo, o.k1, o.k2);
-                  bMat = laplh * spasm.mat();
+                  bMat = laplh * i2lapl.mat();
                }
                else
                {
-                  SparseSM::Chebyshev::LinearMap::I2Lapl spasm(nNr, nNc, o.zi,
+                  SparseSM::Chebyshev::LinearMap::I2Lapl i2lapl(nNr, nNc, o.zi,
                      o.zo, o.k1, o.k2);
-                  bMat = laplh * spasm.mat();
+                  bMat = laplh * i2lapl.mat();
                }
             }
             else
             {
                if (o.k1 == 0 && o.k2 == 0)
                {
-                  SparseSM::Chebyshev::LinearMap::Id spasm(nNr, nNc, o.zi, o.zo,
+                  SparseSM::Chebyshev::LinearMap::Id id(nNr, nNc, o.zi, o.zo,
                      2, 0);
-                  bMat = spasm.mat();
+                  bMat = id.mat();
                }
                else
                {
-                  SparseSM::Chebyshev::LinearMap::I4Lapl2 spasm(nNr, nNc, o.zi,
+                  SparseSM::Chebyshev::LinearMap::I4Lapl2 i4lapl2(nNr, nNc, o.zi,
                      o.zo, o.k1, o.k2);
-                  bMat = laplh * spasm.mat();
+                  bMat = laplh * i4lapl2.mat();
                }
             }
 
@@ -354,7 +355,8 @@ std::vector<details::BlockDescription> ModelBackend::implicitBlockBuilder(
             }
             else
             {
-               auto c = (o.k1 * o.k1 + o.k2 * o.k2) / E;
+               auto laplh = -(o.k1 * o.k1 + o.k2 * o.k2);
+               auto c = -laplh / E;
                SparseSM::Chebyshev::LinearMap::I4D1 i4d1(nNr, nNc, o.zi, o.zo);
                bMat = c * i4d1.mat();
             }
@@ -385,8 +387,8 @@ std::vector<details::BlockDescription> ModelBackend::implicitBlockBuilder(
             auto Pr = nds.find(NonDimensional::Prandtl::id())->second->value();
 
             auto laplh = -(o.k1 * o.k1 + o.k2 * o.k2);
-            SparseSM::Chebyshev::LinearMap::I4 spasm(nNr, nNc, o.zi, o.zo);
-            bMat = -(Ra / Pr) * laplh * spasm.mat();
+            SparseSM::Chebyshev::LinearMap::I4 i4(nNr, nNc, o.zi, o.zo);
+            bMat = -(Ra / Pr) * laplh * i4.mat();
 
             return bMat;
          };
@@ -419,21 +421,48 @@ std::vector<details::BlockDescription> ModelBackend::implicitBlockBuilder(
 
             if (o.k1 == 0 && o.k2 == 0)
             {
-               SparseSM::Chebyshev::LinearMap::Id spasm(nNr, nNc, o.zi, o.zo, 2,
+               SparseSM::Chebyshev::LinearMap::Id id(nNr, nNc, o.zi, o.zo, 2,
                   0);
-               bMat = (1.0 / Pr) * spasm.mat();
+               bMat = (1.0 / Pr) * id.mat();
             }
             else
             {
-               SparseSM::Chebyshev::LinearMap::I2Lapl spasm(nNr, nNc, o.zi,
+               SparseSM::Chebyshev::LinearMap::I2Lapl i2lapl(nNr, nNc, o.zi,
                   o.zo, o.k1, o.k2);
-               bMat = (1.0 / Pr) * spasm.mat();
+               bMat = (1.0 / Pr) * i2lapl.mat();
             }
 
             return bMat;
          };
 
          // Create diagonal block
+         auto& d = getDescription();
+         d.nRowShift = 0;
+         d.nColShift = 0;
+         d.realOp = realOp;
+         d.imagOp = nullptr;
+      }
+      else if(this->useLinearized() && colId == std::make_pair(PhysicalNames::Velocity::id(),
+                      FieldComponents::Spectral::POL))
+      {
+         // Real part of operator
+         auto realOp = [](const int nNr, const int nNc, const int k1,
+                          std::shared_ptr<details::BlockOptions> opts,
+                          const NonDimensional::NdMap& nds)
+         {
+            SparseMatrix bMat(nNr, nNc);
+
+            auto& o =
+               *std::dynamic_pointer_cast<implDetails::BlockOptionsImpl>(opts);
+
+            auto laplh = -(o.k1 * o.k1 + o.k2 * o.k2);
+            SparseSM::Chebyshev::LinearMap::I2 i2(nNr, nNc, o.zi, o.zo);
+            bMat = -laplh * i2.mat();
+
+            return bMat;
+         };
+
+         // Create block diagonal operator
          auto& d = getDescription();
          d.nRowShift = 0;
          d.nColShift = 0;
@@ -498,14 +527,14 @@ std::vector<details::BlockDescription> ModelBackend::timeBlockBuilder(
 
          if (o.k1 == 0 && o.k2 == 0)
          {
-            SparseSM::Chebyshev::LinearMap::I2 spasm(nNr, nNc, o.zi, o.zo);
-            bMat = spasm.mat();
+            SparseSM::Chebyshev::LinearMap::I2 i2(nNr, nNc, o.zi, o.zo);
+            bMat = i2.mat();
          }
          else
          {
             auto laplh = -(o.k1 * o.k1 + o.k2 * o.k2);
-            SparseSM::Chebyshev::LinearMap::I2 spasm(nNr, nNc, o.zi, o.zo);
-            bMat = laplh * spasm.mat();
+            SparseSM::Chebyshev::LinearMap::I2 i2(nNr, nNc, o.zi, o.zo);
+            bMat = laplh * i2.mat();
          }
 
          return bMat;
@@ -534,20 +563,20 @@ std::vector<details::BlockDescription> ModelBackend::timeBlockBuilder(
 
          if (o.useSplitEquation)
          {
-            SparseSM::Chebyshev::LinearMap::I2 spasm(nNr, nNc, o.zi, o.zo);
-            bMat = spasm.mat();
+            SparseSM::Chebyshev::LinearMap::I2 i2(nNr, nNc, o.zi, o.zo);
+            bMat = i2.mat();
          }
          else
          {
             if (o.k1 == 0 && o.k2 == 0)
             {
-               SparseSM::Chebyshev::LinearMap::I2 spasm(nNr, nNc, o.zi, o.zo);
-               bMat = spasm.mat();
+               SparseSM::Chebyshev::LinearMap::I2 i2(nNr, nNc, o.zi, o.zo);
+               bMat = i2.mat();
             }
             else
             {
                auto laplh = -(o.k1 * o.k1 + o.k2 * o.k2);
-               SparseSM::Chebyshev::LinearMap::I4Lapl spasm(nNr, nNc, o.zi,
+               SparseSM::Chebyshev::LinearMap::I4Lapl i4lapl(nNr, nNc, o.zi,
                   o.zo, o.k1, o.k2);
 
 #if 0
@@ -560,14 +589,14 @@ std::vector<details::BlockDescription> ModelBackend::timeBlockBuilder(
                if (o.bcId == Bc::Name::NoSlip::id())
                {
                   SparseSM::Chebyshev::LinearMap::Id qid(nNr, nNc, o.zi, o.zo, -2);
-                  bMat = laplh * spasm.mat() * qid.mat();
+                  bMat = laplh * i4lapl.mat() * qid.mat();
                }
                else
                {
-                  bMat = laplh * spasm.mat();
+                  bMat = laplh * i4lapl.mat();
                }
 #else
-               bMat = laplh * spasm.mat();
+               bMat = laplh * i4lapl.mat();
 #endif
             }
          }
@@ -596,13 +625,13 @@ std::vector<details::BlockDescription> ModelBackend::timeBlockBuilder(
          SparseMatrix bMat;
          if (o.k1 == 0 && o.k2 == 0)
          {
-            SparseSM::Chebyshev::LinearMap::I2 spasm(nNr, nNc, o.zi, o.zo);
-            bMat = spasm.mat();
+            SparseSM::Chebyshev::LinearMap::I2 i2(nNr, nNc, o.zi, o.zo);
+            bMat = i2.mat();
          }
          else
          {
-            SparseSM::Chebyshev::LinearMap::I2 spasm(nNr, nNc, o.zi, o.zo);
-            bMat = spasm.mat();
+            SparseSM::Chebyshev::LinearMap::I2 i2(nNr, nNc, o.zi, o.zo);
+            bMat = i2.mat();
          }
 
          return bMat;
@@ -901,8 +930,8 @@ ModelBackend::explicitNonlinearBlockBuilder(const SpectralFieldId& rowId,
          auto& o =
             *std::dynamic_pointer_cast<implDetails::BlockOptionsImpl>(opts);
 
-         SparseSM::Chebyshev::LinearMap::I2 spasm(nNr, nNc, o.zi, o.zo);
-         bMat = spasm.mat();
+         SparseSM::Chebyshev::LinearMap::I2 i2(nNr, nNc, o.zi, o.zo);
+         bMat = i2.mat();
 
          return bMat;
       };
