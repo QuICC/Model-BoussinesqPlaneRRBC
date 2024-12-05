@@ -75,7 +75,7 @@ void IRRBCModel::addStates(SharedStateGenerator spGen)
    spScalar = spGen->addEquation<Equations::CartesianExactScalarState>(
       this->spBackend());
    spScalar->setIdentity(PhysicalNames::Temperature::id());
-   switch (0)
+   switch (4)
    {
    case 0: {
       spScalar->setPhysicalNoise(1e-15);
@@ -96,6 +96,16 @@ void IRRBCModel::addStates(SharedStateGenerator spGen)
       spVector->setSrcKernel(FieldComponents::Spectral::SCALAR, spKernel);
    }
    break;
+
+   case 4: {
+      spExact = spGen->addScalarEquation<Equations::CartesianExactScalarState>();
+      spExact->setIdentity(PhysicalNames::TEMPERATURE);
+      spExact->setStateType(Equations::CartesianExactStateIds::POLYCOSCOS);
+      spExact->setModeOptions(1e0, 0.0, 1e0, 0.0, 1e0, 0.0);
+   }
+   break;
+
+
    }
 
    // Add velocity initial state generator
@@ -140,6 +150,7 @@ void IRRBCModel::addStates(SharedStateGenerator spGen)
       // spVector->setStateType(Equations::CartesianExactStateIds::TORPOLTFF);
    }
    break;
+
    }
 
    // Add output file
