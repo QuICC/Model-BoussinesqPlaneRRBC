@@ -28,13 +28,13 @@ quicc_add_benchmark(Explicit
   )
 
 if(TARGET QuICC::Stability)
-  #quicc_add_benchmark(Explicit
-  #  MODEL "BoussinesqPlaneRRBC"
-  #  TYPE "Stability"
-  #  WORKDIR "${CMAKE_BINARY_DIR}/${QUICC_CURRENT_MODEL_DIR}/TestSuite/Stability"
-  #  ARCHIVEDIR "${CMAKE_BINARY_DIR}/Models/_refdata"
-  #  TIMEOUT 500
-  #  VARIANTS "framework/parallel/algorithm:tubular"
-  #  MPIRANKS 1
-  #  )
+  quicc_add_benchmark(Explicit
+    MODEL "BoussinesqPlaneRRBC"
+    TYPE "Stability"
+    WORKDIR "${CMAKE_BINARY_DIR}/${QUICC_CURRENT_MODEL_DIR}/TestSuite/Stability"
+    ARCHIVEDIR "${CMAKE_BINARY_DIR}/Models/_refdata"
+    TIMEOUT 500
+    VARIANTS "framework/parallel/algorithm:tubular"
+    MPIRANKS 1
+    )
 endif()
