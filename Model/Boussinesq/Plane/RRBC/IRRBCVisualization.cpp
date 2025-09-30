@@ -9,9 +9,7 @@
 
 // Project includes
 //
-#include "Model/Boussinesq/Plane/RRBC/IRRBCModel.hpp"
-#include "Model/Boussinesq/Plane/RRBC/Momentum.hpp"
-#include "Model/Boussinesq/Plane/RRBC/Transport.hpp"
+#include "Model/Boussinesq/Plane/RRBC/IRRBCVisualization.hpp"
 #include "Model/Boussinesq/Plane/RRBC/gitHash.hpp"
 #include "QuICC/Enums/FieldIds.hpp"
 #include "QuICC/Io/Variable/Cartesian1DScalarEnergyWriter.hpp"
@@ -44,55 +42,40 @@ namespace Plane {
 
 namespace RRBC {
 
-VectorFormulation::Id IRRBCModel::SchemeFormulation()
+VectorFormulation::Id IRRBCVisualization::SchemeFormulation()
 {
    return VectorFormulation::TORPOL;
 }
 
-std::string IRRBCModel::version() const
+std::string IRRBCVisualization::version() const
 {
    return std::string(gitHash);
 }
 
-void IRRBCModel::addEquations(SharedSimulation spSim)
+void IRRBCVisualization::addVisualizers(SharedVisualizationGenerator spVis)
 {
-   // Add transport equation
-   spSim->addEquation<Equations::Boussinesq::Plane::RRBC::Transport>(
-      this->spBackend());
+   // Shared pointer to basic field visualizer
+   Equations::SharedScalarFieldVisualizer spScalar;
+   Equations::SharedVectorFieldVisualizer spVector;
 
-   // Add Navier-Stokes equation
-   spSim->addEquation<Equations::Boussinesq::Plane::RRBC::Momentum>(
-      this->spBackend());
-}
+   // Add temperature field visualization
+   spScalar =
+      spVis->addEquation<Equations::ScalarFieldVisualizer>(this->spBackend());
+   spScalar->setFields(true, false);
+   spScalar->setIdentity(PhysicalNames::Temperature::id());
 
-std::map<std::string, std::map<std::string, int>> IRRBCModel::configTags() const
-{
-   std::map<std::string, int> onOff;
-   onOff.emplace("enable", 1);
+   // Add velocity fields visualization
+   spVector =
+      spVis->addEquation<Equations::VectorFieldVisualizer>(this->spBackend());
+   spVector->setFields(true, false, true);
+   spVector->setIdentity(PhysicalNames::Velocity::id());
 
-   std::map<std::string, int> offOn;
-   onOff.emplace("enable", 0);
-
-   std::map<std::string, std::map<std::string, int>> tags;
-   // kinetic
-   tags.emplace("kinetic_energy", onOff);
-   // temperature
-   tags.emplace("temperature_energy", onOff);
-   tags.emplace("temperature_nusselt", offOn);
-
-   return tags;
-}
-
-void IRRBCModel::addAsciiOutputFiles(SharedSimulation spSim)
-{
-   // Create temperature energy writer
-   this->enableAsciiFile<Io::Variable::Cartesian1DScalarEnergyWriter>(
-      "temperature_energy", "temperature", PhysicalNames::Temperature::id(),
-      spSim);
-
-   // Create kinetic energy writer
-   this->enableAsciiFile<Io::Variable::Cartesian1DTorPolEnergyWriter>(
-      "kinetic_energy", "kinetic", PhysicalNames::Velocity::id(), spSim);
+   // Add output file
+   auto spOut = std::make_shared<Io::Variable::VisualizationFileWriter>(
+      spVis->ss().tag());
+   spOut->expect(PhysicalNames::Temperature::id());
+   spOut->expect(PhysicalNames::Velocity::id());
+   spVis->addHdf5OutputFile(spOut);
 }
 
 } // namespace RRBC
