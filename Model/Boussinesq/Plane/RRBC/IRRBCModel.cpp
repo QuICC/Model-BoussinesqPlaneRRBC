@@ -51,7 +51,7 @@ VectorFormulation::Id IRRBCModel::SchemeFormulation()
 
 std::string IRRBCModel::version() const
 {
-   return std::string(gitHash);
+   return "BoussinesqPlaneRRBC:" + std::string(gitHash);
 }
 
 void IRRBCModel::addEquations(SharedSimulation spSim)
