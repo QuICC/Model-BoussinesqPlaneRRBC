@@ -12,10 +12,10 @@ out = vt.checkHdf5("visState0000.hdf5", ref_dir, data_dir, physicals, 0)
 results.append(out[0])
 
 tids = [0, 1, 2, 3]
-tols = [72100, 27100, 3400, 150]
+tols = [50, 50, 50, 50]
 datasets = ['temperature/temperature', 'velocity/velocity_x', 'velocity/velocity_y', 'velocity/velocity_z']
 for tid, t, ds in  zip(tids, tols, datasets):
-    results.append(vt.hdf5Test(*out[1], ds, tid, tol = t, perrow = True, percol = True, threshold = 1e-15))
+    results.append(vt.hdf5Test(*out[1], ds, tid, tol = t, peraxis = (0, 1, 2), threshold = 1e-15))
 
 # Output test summary
 vt.printSummary(results, tids, reftol = tols)
