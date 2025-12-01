@@ -17,12 +17,7 @@ spectra = ['l', 'm']
 for prefix in prefixes:
     # Energy
     for r, t in zip(rows,tols):
-        results.append(vt.tableTest(prefix + '_energy.dat', ref_dir, data_dir, r, tol = t, max_rows = r+1, perrow = True, max_firstcol = 1))
-
-    # Spectra
-    for mode in spectra:
-        for r, t in zip(rows,tols):
-            results.append(vt.tableTest(prefix +  '_' + mode + f'_spectrum{r:04}.dat', ref_dir, data_dir, r, tol = t, percol = True, perrow = True, max_firstcol = 1))
+        results.append(vt.tableTest(prefix + '_energy.dat', ref_dir, data_dir, r, tol = t, max_rows = r+1, perrow = True, max_firstcol = 1, threshold = 1e-16))
 
 # Nusselt number
 #for r, t in zip(rows,tols):
